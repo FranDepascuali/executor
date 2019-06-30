@@ -4,6 +4,12 @@ import argcomplete
 import argparse
 import inspect
 import Library
+from plumbum.cmd import ls, grep, wc
+from plumbum import FG, BG
+
+import lupa
+from lupa import LuaRuntime
+lua = LuaRuntime(unpack_returned_tuples=True)
 
 parser = argparse.ArgumentParser(description='description')
 subparsers = parser.add_subparsers(dest="function_called")
@@ -47,16 +53,25 @@ for argument in get_ordered_arguments(function_name):
 
 
 def __call__(command):
-    from subprocess import run, PIPE
-    Library.print_statement(command)
-    result = run(command, shell=True, stdout=PIPE, stderr=PIPE)
-    parsedOutput = list(map(lambda line: line.decode(
-        'UTF-8'), result.stdout.splitlines()))
-    # print(result)
+    # from subprocess import run, PIPE
+    # Library.print_statement(command)
+    # result = run(command, shell=True, stdout=PIPE, stderr=PIPE)
+    # parsedOutput = list(map(lambda line: line.decode(
+    #     'UTF-8'), result.stdout.splitlines()))
+    # return parsedOutput
 
-    # print(parsedOutput)
-    # print("hello")
-    return parsedOutput
+    # command = ls | grep[".py"]
+    # print(command())
+    # foo_number_of_files("/Users/francisco/Documents/Coding")
+    # p = ls["-l"] & BG
+    # p.wait()
+    # print(p.stdout)
+
+    Library.print_statement(f"number_of_files: {command}")
+    # answer = command()
+    answer = lua.execute(
+        "require(\"Library.lualibrary\") ; return function_to_execute()")
+    return answer
 
 
 # The function name is the last element, then we take it out from the args.
