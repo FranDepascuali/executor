@@ -32,16 +32,6 @@ for key,value in pairs(library) do
     _G[key] = hook(library[key])
 end
 
--- function build_command(command, ...)
---     cmd = command
-
---     for index, argument in pairs({...})
---         do cmd = cmd .. ' ' .. argument
---     end
-
---     return cmd
--- end
-
 function build_command(command)
     return function(...)
         cmd = command
@@ -56,18 +46,16 @@ end
 
 local mt = {} 
 
-function curry(exec)
-    return function(command)
-        return exec(command)
-    end
-end
+-- function curry(exec)
+--     return function(command)
+--         return exec(command)
+--     end
+-- end
 
-mt.__index = 
-    function(table, key)
-        return function() 
-            -- If we didn't find the method, then create it and execute it
-            return hook(build_command(key))()
-        end
+mt.__index = function(table, key)
+        -- If we didn't find the method, then create it. Index will then handle
+        -- the parameters to this function.
+        return hook(build_command(key))
     end
 
 setmetatable(_G, mt)
