@@ -33,7 +33,7 @@ local unpack = unpack or table.unpack
 
 
 local hook = {}
-
+local colors = require 'ansicolors'
 
 hook._VERSION = "hook.lua 1.0"
 hook._URL = "https://github.com/MrVallentin/hook.lua"
@@ -53,6 +53,12 @@ local function callhooks(hookedfunc, ...)
 	return nil
 end
 
+local function print_statement(message)
+    -- formatted_message = colors(string.format("%{magenta}→ %s", message))
+    formatted_message = colors("%{magenta}→ " .. message)
+    print(formatted_message)
+end
+
 local function newhook(func, hook)
 	local hookedfunc = {}
 	
@@ -61,13 +67,9 @@ local function newhook(func, hook)
 	
 	setmetatable(hookedfunc, {
 		__call = function(func, ...)
-			local result = {callhooks(hookedfunc, ...)}
-			
-			if result ~= nil and #result > 0 then
-				return unpack(result)
-			end
-			
-			return hookedfunc.__func(...)
+			local answer = hookedfunc.__func(...)
+			print_statement(answer)
+			return answer
 		end
 	})
 	

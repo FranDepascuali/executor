@@ -93,14 +93,14 @@ function combine(...)
     return table.concat(..., " | ")
 end
 
-function ios_simulators()
+function M.ios_simulators()
     return combine({simulators(), find_between('== Device Types ==', '== Runtimes =='), find_lines_with_word("iPhone") })
     -- print_statement(command_to_execute)
     -- print(execute(command_to_execute))
 end
 
-function find_files(directory, name)
-    return "find " .. directory .. " -name " .. name
+function M.find_files(directory, name)
+    return combine("find " .. directory .. " -name " .. name)
 end
 
 function print_statement(message)
@@ -156,6 +156,8 @@ end
 --     return converted
 -- 	-- return build_command(cmd)
 -- end
+
+
 
 return M
 -- command_to_execute = ls("-a")
