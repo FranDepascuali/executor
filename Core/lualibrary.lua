@@ -6,15 +6,15 @@ local M = {}
 
 
 
-function build_command(command, ...)
-    cmd = command
+-- function build_command(command, ...)
+--     cmd = command
 
-    for index, argument in pairs({...})
-        do cmd = cmd .. ' ' .. argument
-    end
+--     for index, argument in pairs({...})
+--         do cmd = cmd .. ' ' .. argument
+--     end
 
-    return cmd
-end
+--     return cmd
+-- end
 
 -- function ls(...)
 --     cmd = "ls"
@@ -30,52 +30,28 @@ end
 --     return "wc -l"
 -- end
 
-function grep(word)
-    return string.format("grep \"%s\"", word)
-end
-
 -- function ls()
 --     return execute("xcrun simctl list | sed -n '/== Device Types ==/,/== Runtimes ==/p' | grep \"iPhone\"")
 -- end
 
-function find_between(first, second)
-    -- def find_between(first, second):
-    -- return sed["-n", f'/{first}/,/{second}/p']
-    -- return "sed -n /" .. first .. "/,/" .. second .. "\'/p\'"
-    
+function M.grep(word)
+    return string.format("grep \"%s\"", word)
+end
+
+function M.find_between(first, second)
     return string.format("sed -n '/%s/,/%s/p'", first, second)
 end
 
--- function wc(lines) 
---     return execute(string.format("echo \"%s\" | wc -l", lines))
--- end
-
-
 function find_lines_with_word(word)
-    return grep(word)
+    return M.grep(word)
 end
 
 function simulators()
     return "xcrun simctl list"
 end
 
--- function simulators()
-    -- sims = "xcrun simctl list"
-    -- bet = find_between('== Device Types ==', '== Runtimes ==')
-    -- return execute(string.format("%s | %s", sims, bet))
-    -- return wc("bla\nhey")
-    
-    -- ans = execute("ls .")
-    -- return wc(ans)
--- end
-    -- return string.format("
-
--- def simulators():
-    -- return list_simulators() | find_between('== Device Types ==', '== Runtimes ==')
-    -- # return f"{list_simulators()} | {find_between('== Device Types ==', '== Runtimes ==')}"
-
 function M.ios_simulators()
-    return {simulators(), find_between('== Device Types ==', '== Runtimes =='), find_lines_with_word("iPhone") }
+    return {simulators(), M.find_between('== Device Types ==', '== Runtimes =='), find_lines_with_word("iPhone") }
 end
 
 function M.find_files(directory, name)
