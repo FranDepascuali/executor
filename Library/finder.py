@@ -33,9 +33,6 @@ def find_lines_with_word(word):
     # return f"grep \"{word}\""
 
 
-def find_files(directory, name):
-    return "find {} -name {}".format(directory, name)
-
 
 @curry(str)
 def list_files(directory_path):
