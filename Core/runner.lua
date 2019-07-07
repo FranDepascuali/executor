@@ -17,19 +17,13 @@ function execute(command)
     return l
 end
 
--- function curry(exec)
---     return function(command)
---         return exec(command)
---     end
--- end
-
 local function hook (original_fn)
     return function (...)
         command = flatten(original_fn(...))
         printer.print_statement(command)
         execution = execute(command)
         print(execution)
-        -- return execution
+        return execution
     end
 end
 
@@ -37,3 +31,43 @@ end
 for key,value in pairs(library) do
     _G[key] = hook(library[key])
 end
+
+-- function build_command(command, ...)
+--     cmd = command
+
+--     for index, argument in pairs({...})
+--         do cmd = cmd .. ' ' .. argument
+--     end
+
+--     return cmd
+-- end
+
+function build_command(command)
+    return function(...)
+        cmd = command
+        
+        for index, argument in pairs({...})
+            do cmd = cmd .. ' ' .. argument
+        end
+
+        return cmd
+    end
+end
+
+local mt = {} 
+
+function curry(exec)
+    return function(command)
+        return exec(command)
+    end
+end
+
+mt.__index = 
+    function(table, key)
+        return function() 
+            -- If we didn't find the method, then create it and execute it
+            return hook(build_command(key))()
+        end
+    end
+
+setmetatable(_G, mt)

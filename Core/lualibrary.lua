@@ -5,15 +5,10 @@ local hook = require("hook")
 local M = {}
 
 
-
--- function build_command(command, ...)
---     cmd = command
-
---     for index, argument in pairs({...})
---         do cmd = cmd .. ' ' .. argument
+-- function curry(exec)
+--     return function(command)
+--         return exec(command)
 --     end
-
---     return cmd
 -- end
 
 -- function ls(...)
