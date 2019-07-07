@@ -1,40 +1,39 @@
 local library = require 'lualibrary'
+local printer = require 'printer'
 
+-- Flatten a list of commands into one
+-- or return the command if it was a string already
+function flatten(...) 
+    if type(...) == "string" then
+        return ...
+    end
+    return table.concat(..., " | ")
+end
 
+function execute(command)
+    local f = io.popen(command) -- runs command
+    local l = f:read("*a") -- read output of command
+    f:close()
+    return l
+end
+
+-- function curry(exec)
+--     return function(command)
+--         return exec(command)
+--     end
+-- end
 
 local function hook (original_fn)
     return function (...)
-        command = original_fn(...)
-        print_statement(command)
-        print(execute(command))
+        command = flatten(original_fn(...))
+        printer.print_statement(command)
+        execution = execute(command)
+        print(execution)
+        -- return execution
     end
 end
 
 
 for key,value in pairs(library) do
-    -- _G.ios_simulators = library.ios_simulators
-    -- key()
-    print("found member " .. key);
     _G[key] = hook(library[key])
 end
-
--- _G["ios_simulators"] = library["ios_simulators"]
-
--- ios_simulators = hook(ios_simulators)
--- _G.ios_simulators = function()
---     library.ios_simulators()
--- end
-
--- local mt = getmetatable(_G)
-
--- if mt == nil then
---   mt = {}
---   setmetatable(_G, mt)
--- end
-
--- -- set hook for undefined variables
--- mt.__index = function(t, cmd)
---     print("hello there")
---     return library.cmd
--- 	-- return command(cmd)
--- end
