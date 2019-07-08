@@ -46,12 +46,6 @@ end
 
 local mt = {} 
 
--- function curry(exec)
---     return function(command)
---         return exec(command)
---     end
--- end
-
 mt.__index = function(table, key)
         -- If we didn't find the method, then create it. Index will then handle
         -- the parameters to this function.
