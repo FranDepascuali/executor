@@ -6,3 +6,4 @@ lua = lua_runtime.globals()
 
 lua.ios_simulators()
 lua.ls("-l")
+lua.echo("hello world")
