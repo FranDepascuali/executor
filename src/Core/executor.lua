@@ -1,5 +1,4 @@
-local library = require 'lualibrary'
-local printer = require 'printer'
+local library = require 'library'
 
 -- Flatten a list of commands into one
 -- or return the command if it was a string already
@@ -20,16 +19,22 @@ end
 local function hook (original_fn)
     return function (...)
         command = flatten(original_fn(...))
-        printer.print_statement(command)
+        library.printer.print_statement(command)
         execution = execute(command)
         print(execution)
         return execution
     end
 end
 
+for module,value in pairs(library) do
+    -- For the case where the module returns an empty {}. don't know why
+    -- but module without returns returns a boolean.
+    if library[module] ~= nil and type(library[module]) ~= "boolean" then
+        for funct,v in pairs(library[module]) do
+            _G[funct] = hook(library[module][funct])
+        end
+    end
 
-for key,value in pairs(library) do
-    _G[key] = hook(library[key])
 end
 
 function build_command(command)

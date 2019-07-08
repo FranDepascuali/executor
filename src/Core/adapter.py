@@ -1,8 +1,8 @@
 from lupa import LuaRuntime
-lua = LuaRuntime()
+lua_runtime = LuaRuntime()
 
-lua.eval("require(\"runner\")")
+lua_runtime.eval("require(\"executor\")")
+lua = lua_runtime.globals()
 
-
-lua.globals().ios_simulators()
-lua.globals().ls("-l")
+lua.ios_simulators()
+lua.ls("-l")

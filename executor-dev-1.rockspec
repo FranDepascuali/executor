@@ -13,7 +13,8 @@ build = {
       lua = {
          "src/Core/executor.lua",
          "src/Core/printer.lua",
-         "src/Core/lualibrary.lua"
+         "src/Core/lualibrary.lua",
+         "src/Core/Library/ios.lua"
       }
    }
 }

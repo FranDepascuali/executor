@@ -1,10 +1,7 @@
 require 'language/lua'
 
 lua = Language::Lua.new()
-# lua.eval("lualibrary.lua")
-print(lua.eval("
-require(\"runner\")"
-))
+lua.eval("require(\"executor\")")
 
 
 lua.ios_simulators()
