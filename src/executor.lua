@@ -2,11 +2,15 @@ local library = require 'library'
 
 -- Flatten a list of commands into one
 -- or return the command if it was a string already
-function flatten(...) 
+function flatten(separator, ...) 
     if type(...) == "string" then
         return ...
     end
-    return table.concat(..., " | ")
+    return table.concat(..., separator)
+end
+
+function pipe(...)
+    return flatten(" | ", ...)
 end
 
 function execute(command)
@@ -18,7 +22,7 @@ end
 
 local function hook (original_fn)
     return function (...)
-        command = flatten(original_fn(...))
+        command = pipe(original_fn(...))
         library.printer.print_statement(command)
         execution = execute(command)
         print(execution)

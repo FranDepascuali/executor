@@ -16,4 +16,8 @@ function finder.find_files(directory, name)
     return "find " .. directory .. " -name " .. name
 end
 
+function finder.open(file)
+    return "open " .. file
+end
+
 return finder
