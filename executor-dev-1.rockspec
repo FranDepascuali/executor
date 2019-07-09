@@ -11,10 +11,11 @@ build = {
    type = "none",
    install = {
       lua = {
-         "src/Core/executor.lua",
-         "src/Core/printer.lua",
-         "src/Core/lualibrary.lua",
-         "src/Core/Library/ios.lua"
+         ["executor"] = "src/executor.lua",
+         ["library"] = "src/library/init.lua",
+         ["library.finder"] = "src/library/finder.lua",
+         ["library.printer"] = "src/library/printer.lua",
+         ["library.ios"] = "src/library/ios.lua"
       }
    }
 }
