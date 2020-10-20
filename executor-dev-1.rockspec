@@ -4,9 +4,11 @@ source = {
    url = "git+https://github.com/FranDepascuali/Executor"
 }
 description = {
+   summary = "A library to execute commands.",
    homepage = "https://github.com/FranDepascuali/Executor",
    license = "*** please specify a license ***"
 }
+dependencies = {"ansicolors == 1.0.2-3"}
 build = {
    type = "none",
    install = {
