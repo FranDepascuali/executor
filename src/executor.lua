@@ -26,7 +26,7 @@ local function hook (original_fn)
         command = pipe(original_fn(...))
         library.printer.print_statement(command)
         execution = execute(command)
-        -- print(execution)
+        print(execution)
         return execution
     end
 end

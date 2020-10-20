@@ -13,3 +13,8 @@ src
 
 >
 ```
+
+4. To run command for cmd:
+```
+lua -l executor -e "find_files('.', '*.py')"
+```
