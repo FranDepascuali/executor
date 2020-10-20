@@ -12,17 +12,6 @@ function chain(f, g)
 end
 
 function ios.build_workspace(configuration, scheme, workspace)
-    -- build = flatten(" ", {
-    --                     "xcodebuild",
-    --                     "-configuration " .. configuration,
-    --                     "-scheme " .. scheme,
-    --                     "-workspace " .. workspace,
-    --                     "-sdk {}",
-    --                     "build",
-    --                     "-UseModernBuildSystem=NO"
-    --                     })
-
-    -- return chain(ios.simulator_sdk_path(), build)
     return flatten(" ", {
                         "xcodebuild",
                         "-configuration " .. configuration,
@@ -39,7 +28,11 @@ function ios.full_simulators_list()
 end
 
 function ios.ios_simulators()
-    return {ios.full_simulators_list(), finder.find_between('== Device Types ==', '== Runtimes =='), finder.find_lines_with_word("iPhone") }
+    return {
+        ios.full_simulators_list(), 
+        finder.find_between('== Device Types ==', '== Runtimes =='), 
+        finder.find_lines_with_word("iPhone") 
+    }
 end
 
 function ios.simulator_path()

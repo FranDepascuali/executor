@@ -1,4 +1,5 @@
-local library = require 'library'
+local thispath = select('1', ...):match(".+%.") or ""
+local library = require(thispath.."Library")
 
 -- Flatten a list of commands into one
 -- or return the command if it was a string already
@@ -25,7 +26,7 @@ local function hook (original_fn)
         command = pipe(original_fn(...))
         library.printer.print_statement(command)
         execution = execute(command)
-        print(execution)
+        -- print(execution)
         return execution
     end
 end
